@@ -1,0 +1,16 @@
+# Binaries
+*.exe
+api
+api2
+
+# Database and portable binaries
+pgsql/
+pgsql.zip
+pwfile.txt
+
+# Temp/Scratch
+scratch/
+.gemini/
+
+# Environment files
+.env
