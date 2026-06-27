@@ -62,6 +62,42 @@ go mod tidy
 *   `GET /accounts/{accountId}/analytics` — Статистика доходов и расходов
 *   `GET /accounts/{accountId}/predict?days=30` — Прогноз баланса
 
+## Тестирование API
+
+Для тестирования работоспособности API рекомендуется использовать инструменты вроде **Postman** или утилиту **curl**.
+
+**Пример сквозного сценария тестирования (E2E):**
+
+1. **Регистрация:** 
+   ```bash
+   curl -X POST http://localhost:8080/register \
+   -H "Content-Type: application/json" \
+   -d '{"username": "testuser", "email": "test@example.com", "password": "StrongPassword123!"}'
+   ```
+2. **Авторизация (получение токена):**
+   ```bash
+   curl -X POST http://localhost:8080/login \
+   -H "Content-Type: application/json" \
+   -d '{"username": "testuser", "password": "StrongPassword123!"}'
+   ```
+   *Сохраните полученный `token` из ответа.*
+3. **Создание счета (с использованием токена):**
+   ```bash
+   curl -X POST http://localhost:8080/accounts \
+   -H "Authorization: Bearer ВАШ_ТОКЕН" \
+   -H "Content-Type: application/json" \
+   -d '{"currency": "RUB"}'
+   ```
+4. **Оформление кредита:**
+   ```bash
+   curl -X POST http://localhost:8080/credits \
+   -H "Authorization: Bearer ВАШ_ТОКЕН" \
+   -H "Content-Type: application/json" \
+   -d '{"amount": 100000, "term_months": 12}'
+   ```
+
+Все остальные защищенные эндпоинты тестируются аналогичным образом с передачей заголовка `Authorization: Bearer <jwt-token>`.
+
 ## Документация по модулям (Структура проекта)
 
 Проект построен по стандартам Clean Architecture (Чистая архитектура) и Standard Go Project Layout.
